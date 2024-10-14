@@ -127,8 +127,6 @@ Try {
     $ClassIfications = $Server.GetUpdateClassIfications() | Where-Object {(($_.Title -like "*Security*") -or ($_.Title -like "*Critical*") -or ($_.Title -like"*Service Packs*"))}
 } Catch {
     $_
-    #Write-host "$($WSUSServer)<$($Port)>: $($_)"
-
     exit 3
 }
 $ErrorActionPreference = 'Continue'
@@ -317,9 +315,6 @@ $Computerlist = $Wsus.GetComputerTargets($ComputerScope) | ForEach-Object -Proce
                 Unknown { $Unknown = $cpt.Count + $Unknown; break }
             }        
         }
-            # $Updatelvl = 0 
-            # $NbUpdates = $Unknown + $NotInstalled + $Failed + $Downloaded + $InstalledPendingReboot + $Installed
-            # If ($NbUpdates -Ne 0) {$UpdateLvl = ($Installed * 100) / $NbUpdates}
         $Updatelvl = 0 
         $NbUpdates = $Unknown + $NotInstalled + $Failed + $Downloaded + $InstalledPendingReboot + $Installed + $NotApplicable
         If ($NbUpdates -Ne 0) { $UpdateLvl = (($Installed + $NotApplicable) * 100) / $NbUpdates }        
